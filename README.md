@@ -4,11 +4,6 @@
   <a href="https://sadanandpai.github.io/sudoku-solver/dist/">See it in action</a>
 </div>
 
-Pending tasks:
-1. Clear and reset
-2. Loader for search
-3. Number entry restrictions
-
 TechStack
 
 1. SolidJS
