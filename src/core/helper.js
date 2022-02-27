@@ -12,6 +12,17 @@ export const getUserBoard = (size) => {
 };
 
 export const checkIfValidSudoku = (board, m, n) => {
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board.length; j++) {
+      if (Number.isNaN(+board[i][j])) {
+        return false;
+      }
+      if (+board[i][j] > board.length) {
+        return false;
+      }
+    }
+  }
+
   for (let row in board) {
     const elements = getRowElements(board, row);
     if (new Set(elements).size !== elements.length) {
@@ -47,7 +58,7 @@ export const getBoxElements = (board, x, y, m, n) => {
   const elements = [];
   for (let i = row; i < row + m; i++) {
     for (let j = col; j < col + n; j++) {
-      if(board[i][j]){
+      if (board[i][j]) {
         elements.push(board[i][j]);
       }
     }

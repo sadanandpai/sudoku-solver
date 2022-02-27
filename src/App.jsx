@@ -21,14 +21,12 @@ const App = () => {
 
   const findSolution = async () => {
     const scanBoard = getUserBoard(size());
-    setUserBoard(scanBoard);
-
     const isValid = checkIfValidSudoku(scanBoard, boxSize()[0], boxSize()[1]);
-    setIsValid(isValid);
 
+    setIsValid(isValid);
     if (!isValid) return;
 
-    
+    setUserBoard(scanBoard);
     setInProgress(true);
     const sudoku = await new Sudoku(scanBoard);
     await sudoku.search();
@@ -47,14 +45,16 @@ const App = () => {
   });
 
   const clearBoard = () => {
-    setBoard(userBoard());
+    setBoard(userBoard().map((v) => [...v]));
     setHasSolution(false);
+    setIsValid(true);
   };
 
   const resetBoard = () => {
     setUserBoard(getNewBoard(size()));
     setBoard(getNewBoard(size()));
     setHasSolution(false);
+    setIsValid(true);
   };
 
   return (
@@ -79,7 +79,7 @@ const App = () => {
       />
 
       <Show when={!isValid()}>
-        <div class="text-red-500">Invalid Board Input</div>
+        <div class="text-red-600 font-bold">Invalid Board Input</div>
       </Show>
     </div>
   );
