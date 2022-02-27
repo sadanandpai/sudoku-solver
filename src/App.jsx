@@ -1,11 +1,10 @@
-import { createEffect, createSignal } from "solid-js";
-import { wrap } from "comlink";
-import SudokuWorker from "./core/worker.js?worker";
-import Grid from "./components/Grid";
+import { createEffect, createSignal, Show } from "solid-js";
 import SizeSelector from "./components/SizeSelector";
-import { getNewBoard, getUserBoard, checkIfValidSudoku } from "./core/helper";
-import { Show } from "solid-js";
+import Grid from "./components/Grid";
 import Controls from "./components/Controls";
+import SudokuWorker from "./core/worker.js?worker";
+import { wrap } from "comlink";
+import { getNewBoard, getUserBoard, checkIfValidSudoku } from "./core/helper";
 
 const worker = new SudokuWorker();
 const Sudoku = wrap(worker);
@@ -58,30 +57,53 @@ const App = () => {
   };
 
   return (
-    <div class={`text-center ${inProgress() || hasSolution() ? "board-disabled" : ""}`}>
-      <h1 class="text-3xl m-5">Sudoku Solver</h1>
-      <SizeSelector setSize={setSize} size={size} inProgress={inProgress} />
+    <>
+      <div class={`text-center ${inProgress() || hasSolution() ? "board-disabled" : ""}`}>
+        <h1 class="text-3xl m-5">
+          Sudoku Solver
+          <a
+            href="https://github.com/sadanandpai/sudoku-solver"
+            target="blank"
+            class="absolute right-6"
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+              alt="github"
+              class="w-8 h-8"
+            />
+          </a>
+        </h1>
+        <SizeSelector setSize={setSize} size={size} inProgress={inProgress} />
 
-      <Grid
-        board={board}
-        userBoard={userBoard}
-        size={size}
-        boxSize={boxSize}
-        inProgress={inProgress}
-        hasSolution={hasSolution}
-      />
-      <Controls
-        resetBoard={resetBoard}
-        findSolution={findSolution}
-        clearBoard={clearBoard}
-        inProgress={inProgress}
-        hasSolution={hasSolution}
-      />
+        <Grid
+          board={board}
+          userBoard={userBoard}
+          size={size}
+          boxSize={boxSize}
+          inProgress={inProgress}
+          hasSolution={hasSolution}
+        />
+        <Controls
+          resetBoard={resetBoard}
+          findSolution={findSolution}
+          clearBoard={clearBoard}
+          inProgress={inProgress}
+          hasSolution={hasSolution}
+        />
 
-      <Show when={!isValid()}>
-        <div class="text-red-600 font-bold">Invalid Board Input</div>
-      </Show>
-    </div>
+        <Show when={!isValid()}>
+          <div class="text-red-600 font-bold">Invalid Board Input</div>
+        </Show>
+      </div>
+      <div class="w-full absolute bottom-1 text-center">
+        <span>
+          Made with ♥ by{" "}
+          <a href="https://github.com/sadanandpai" class="text-blue-700">
+            Sadanand Akshay Pai
+          </a>
+        </span>
+      </div>
+    </>
   );
 };
 

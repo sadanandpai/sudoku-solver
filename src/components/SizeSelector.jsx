@@ -3,7 +3,7 @@ const SizeSelector = ({ setSize, size, inProgress }) => {
     <header class="mb-4">
       <button
         class={
-          "px-4 py-1 rounded-md mx-2 border-2 border-blue-700" +
+          "px-4 py-1 rounded-md mx-1 border-2 border-blue-700" +
           (size() === 4 ? " bg-blue-800 text-white" : "")
         }
         disabled={inProgress()}
@@ -13,7 +13,7 @@ const SizeSelector = ({ setSize, size, inProgress }) => {
       </button>
       <button
         class={
-          "px-4 py-1 rounded-md	 mx-2 border-2 border-blue-700" +
+          "px-4 py-1 rounded-md	 mx-1 border-2 border-blue-700" +
           (size() === 6 ? " bg-blue-800 text-white" : "")
         }
         disabled={inProgress()}
@@ -23,7 +23,7 @@ const SizeSelector = ({ setSize, size, inProgress }) => {
       </button>
       <button
         class={
-          "px-4 py-1 rounded-md mx-2 border-2 border-blue-700" +
+          "px-4 py-1 rounded-md mx-1 border-2 border-blue-700" +
           (size() === 8 ? " bg-blue-800 text-white" : "")
         }
         disabled={inProgress()}
@@ -33,7 +33,7 @@ const SizeSelector = ({ setSize, size, inProgress }) => {
       </button>
       <button
         class={
-          "px-4 py-1 rounded-md mx-2 border-2 border-blue-700" +
+          "px-4 py-1 rounded-md mx-1 border-2 border-blue-700" +
           (size() === 9 ? " bg-blue-800 text-white" : "")
         }
         disabled={inProgress()}
