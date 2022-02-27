@@ -1,4 +1,5 @@
 import { expose } from "comlink";
+import { getRowElements, getColElements, getBoxElements  } from "./helper";
 
 class Sudoku {
   constructor(board) {
@@ -40,9 +41,9 @@ class Sudoku {
 
   constructCandidates(board, x, y, m, n) {
     const set = new Set([
-      ...this.getRowElements(board, x),
-      ...this.getColElements(board, y),
-      ...this.getBoxElements(board, x, y, m, n),
+      ...getRowElements(board, x),
+      ...getColElements(board, y),
+      ...getBoxElements(board, x, y, m, n),
     ]);
 
     const elements = [];
@@ -53,22 +54,6 @@ class Sudoku {
     }
     return elements;
   }
-
-  getRowElements = (board, x) => board[x].filter((v) => v);
-  getColElements = (board, y) => board.map((row) => row[y]).filter((v) => v);
-  getBoxElements = (board, x, y, m, n) => {
-    const row = Math.floor(x / m) * m;
-    const col = Math.floor(y / n) * n;
-
-    const elements = [];
-    for (let i = row; i < row + m; i++) {
-      for (let j = col; j < col + n; j++) {
-        elements.push(board[i][j]);
-      }
-    }
-    return elements;
-  };
 }
-
 
 expose(Sudoku);
