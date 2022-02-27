@@ -23,3 +23,11 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.board-disabled input {
+  pointer-events: none;
+}
+
+.board-disabled button:disabled {
+  cursor: not-allowed;
+}

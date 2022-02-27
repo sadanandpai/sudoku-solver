@@ -54,26 +54,3 @@ export const getBoxElements = (board, x, y, m, n) => {
   }
   return elements;
 };
-
-export const getMediumBoard = (size) => {
-  const board = Array.from(new Array(size), () => Array.from(new Array(size), () => ""));
-  board[3][0] = 7;
-  board[5][0] = 1;
-  board[7][1] = 8;
-  board[8][1] = 5;
-  board[2][3] = 6;
-  board[4][3] = 4;
-  board[6][3] = 1;
-  board[1][4] = 3;
-  board[6][4] = 2;
-  board[1][5] = 5;
-  board[3][6] = 3;
-  board[4][6] = 8;
-  board[8][6] = 6;
-
-  board[0][7] = 1;
-  board[2][7] = 7;
-  board[7][7] = 4;
-  board[0][8] = 2;
-  return board;
-};

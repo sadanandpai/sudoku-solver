@@ -3,7 +3,7 @@ import { wrap } from "comlink";
 import SudokuWorker from "./core/worker.js?worker";
 import Grid from "./components/Grid";
 import SizeSelector from "./components/SizeSelector";
-import { getNewBoard, getUserBoard, checkIfValidSudoku, getMediumBoard } from "./core/helper";
+import { getNewBoard, getUserBoard, checkIfValidSudoku } from "./core/helper";
 import { Show } from "solid-js";
 import Controls from "./components/Controls";
 
@@ -17,6 +17,7 @@ const App = () => {
   const [userBoard, setUserBoard] = createSignal([]);
   const [isValid, setIsValid] = createSignal(true);
   const [inProgress, setInProgress] = createSignal(false);
+  const [hasSolution, setHasSolution] = createSignal(false);
 
   const findSolution = async () => {
     const scanBoard = getUserBoard(size());
@@ -27,11 +28,13 @@ const App = () => {
 
     if (!isValid) return;
 
+    
     setInProgress(true);
     const sudoku = await new Sudoku(scanBoard);
     await sudoku.search();
     setBoard(await sudoku.solution[0]);
     setInProgress(false);
+    setHasSolution(true);
   };
 
   createEffect(() => {
@@ -40,27 +43,39 @@ const App = () => {
     const n = size() / m;
     setBoxSize([m, n]);
     setUserBoard(getNewBoard(size()));
+    setHasSolution(false);
   });
 
   const clearBoard = () => {
     setBoard(userBoard());
+    setHasSolution(false);
   };
 
   const resetBoard = () => {
     setUserBoard(getNewBoard(size()));
     setBoard(getNewBoard(size()));
+    setHasSolution(false);
   };
 
   return (
-    <div class="text-center">
+    <div class={`text-center ${inProgress() || hasSolution() ? "board-disabled" : ""}`}>
       <h1 class="text-3xl m-5">Sudoku Solver</h1>
-      <SizeSelector setSize={setSize} size={size} />
-      <Grid board={board} userBoard={userBoard} size={size} boxSize={boxSize} />
+      <SizeSelector setSize={setSize} size={size} inProgress={inProgress} />
+
+      <Grid
+        board={board}
+        userBoard={userBoard}
+        size={size}
+        boxSize={boxSize}
+        inProgress={inProgress}
+        hasSolution={hasSolution}
+      />
       <Controls
         resetBoard={resetBoard}
         findSolution={findSolution}
         clearBoard={clearBoard}
         inProgress={inProgress}
+        hasSolution={hasSolution}
       />
 
       <Show when={!isValid()}>
