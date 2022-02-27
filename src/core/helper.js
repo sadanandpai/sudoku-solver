@@ -26,7 +26,6 @@ export const checkIfValidSudoku = (board, m, n) => {
     }
   }
 
-  debugger;
   for (let i = 0; i < board.length; i += m) {
     for (let j = 0; j < board.length; j += n) {
       const elements = getBoxElements(board, i, j, m, n);

@@ -35,11 +35,11 @@ const App = () => {
   };
 
   createEffect(() => {
-    setBoard(getMediumBoard(size()));
+    setBoard(getNewBoard(size()));
     const m = Math.floor(Math.sqrt(size()));
     const n = size() / m;
     setBoxSize([m, n]);
-    setUserBoard(getMediumBoard(size()));
+    setUserBoard(getNewBoard(size()));
   });
 
   const clearBoard = () => {
