@@ -29,9 +29,17 @@ const App = () => {
     setInProgress(true);
     const sudoku = await new Sudoku(scanBoard);
     await sudoku.search();
-    setBoard(await sudoku.solution[0]);
+    const solution = await sudoku.solution[0];
+
+    if (!solution) {
+      setIsValid(false);
+      setHasSolution(false);
+    } else {
+      setBoard(solution);
+      setHasSolution(true);
+    }
+
     setInProgress(false);
-    setHasSolution(true);
   };
 
   createEffect(() => {
