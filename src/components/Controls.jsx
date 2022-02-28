@@ -9,11 +9,11 @@ const Controls = ({ resetBoard, findSolution, clearBoard, inProgress, hasSolutio
         Reset
       </button>
       <button
-        class="search-button flex justify-center px-4 py-1 rounded-md m-3 bg-blue-800 border-2 border-blue-700 text-white w-20 disabled:bg-blue-200 disabled:border-blue-300"
+        class="flex justify-center px-4 py-1 rounded-md m-3 bg-blue-800 border-2 border-blue-700 text-white w-20 disabled:bg-blue-200 disabled:border-blue-300"
         onClick={findSolution}
         disabled={inProgress() || hasSolution()}
       >
-        <Show when={!inProgress()}>Search</Show>
+        <Show when={!inProgress()}>Solve</Show>
 
         <Show when={inProgress()}>
           <div

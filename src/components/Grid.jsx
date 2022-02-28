@@ -3,6 +3,7 @@ import Square from "./Square";
 const Grid = ({ board, userBoard, size, boxSize }) => {
   return (
     <div class="relative">
+      {/* Boxes in the sudoku */}
       <div
         class={`inline-grid absolute pointer-events-none grid-rows-${boxSize()[1]} grid-cols-${
           boxSize()[0]
@@ -15,6 +16,7 @@ const Grid = ({ board, userBoard, size, boxSize }) => {
         </For>
       </div>
 
+      {/* Rows and columns of inputs */}
       <div id="userBoard" class={`inline-grid grid-rows-${size()} grid-cols-${size()}`}>
         <For each={board()}>
           {(row, i) => (

@@ -1,26 +1,34 @@
 import { createEffect, createSignal, Show } from "solid-js";
+import { wrap } from "comlink";
 import SizeSelector from "./components/SizeSelector";
 import Grid from "./components/Grid";
 import Controls from "./components/Controls";
 import SudokuWorker from "./core/worker.js?worker";
-import { wrap } from "comlink";
-import { getNewBoard, getUserBoard, checkIfValidSudoku } from "./core/helper";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import { getNewBoard, getUserBoard, checkIfValidSudoku, isValidConfig } from "./core/helper";
 
 const worker = new SudokuWorker();
 const Sudoku = wrap(worker);
 
 const App = () => {
-  const [size, setSize] = createSignal(9);
-  const [boxSize, setBoxSize] = createSignal([]);
-  const [board, setBoard] = createSignal([]);
-  const [userBoard, setUserBoard] = createSignal([]);
+  const [size, setSize] = createSignal(9); // the size of the sudoku board
+  const [boxSize, setBoxSize] = createSignal([]); // width and height of each box in sudoku
+  const [board, setBoard] = createSignal([]); // the board displayed in the UI
+  const [userBoard, setUserBoard] = createSignal([]); // consists of user input only
+
   const [isValid, setIsValid] = createSignal(true);
   const [inProgress, setInProgress] = createSignal(false);
   const [hasSolution, setHasSolution] = createSignal(false);
 
+  /**
+   * @description find the solution and set the board if input is valid
+   */
   const findSolution = async () => {
     const scanBoard = getUserBoard(size());
-    const isValid = checkIfValidSudoku(scanBoard, boxSize()[0], boxSize()[1]);
+    const isValid =
+      checkIfValidSudoku(scanBoard, boxSize()[0], boxSize()[1]) &&
+      isValidConfig(scanBoard, boxSize()[0], boxSize()[1]);
 
     setIsValid(isValid);
     if (!isValid) return;
@@ -32,6 +40,7 @@ const App = () => {
     const solution = await sudoku.solution[0];
 
     if (!solution) {
+      // This condition should never occur as we check if the board is valid or not before searching for solution
       setIsValid(false);
       setHasSolution(false);
     } else {
@@ -42,6 +51,9 @@ const App = () => {
     setInProgress(false);
   };
 
+  /**
+   * @description This function is used to reset the board on change of size
+   */
   createEffect(() => {
     setBoard(getNewBoard(size()));
     const m = Math.floor(Math.sqrt(size()));
@@ -51,12 +63,18 @@ const App = () => {
     setHasSolution(false);
   });
 
+  /**
+   * @description clears the board but retains the users entries
+   */
   const clearBoard = () => {
     setBoard(userBoard().map((v) => [...v]));
     setHasSolution(false);
     setIsValid(true);
   };
 
+  /**
+   * @description completely resets the board
+   */
   const resetBoard = () => {
     setUserBoard(getNewBoard(size()));
     setBoard(getNewBoard(size()));
@@ -66,21 +84,8 @@ const App = () => {
 
   return (
     <>
-      <div class={`text-center ${inProgress() || hasSolution() ? "board-disabled" : ""}`}>
-        <h1 class="text-3xl m-5">
-          Sudoku Solver
-          <a
-            href="https://github.com/sadanandpai/sudoku-solver"
-            target="blank"
-            class="absolute right-6"
-          >
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-              alt="github"
-              class="w-8 h-8"
-            />
-          </a>
-        </h1>
+      <Header />
+      <main class={`text-center ${inProgress() || hasSolution() ? "board-disabled" : ""}`}>
         <SizeSelector setSize={setSize} size={size} inProgress={inProgress} />
 
         <Grid
@@ -102,15 +107,8 @@ const App = () => {
         <Show when={!isValid()}>
           <div class="text-red-600 font-bold">Invalid Board Input</div>
         </Show>
-      </div>
-      <div class="w-full absolute bottom-1 text-center">
-        <span>
-          Made with ♥ by{" "}
-          <a href="https://github.com/sadanandpai" class="text-blue-700">
-            Sadanand Akshay Pai
-          </a>
-        </span>
-      </div>
+      </main>
+      <Footer />
     </>
   );
 };

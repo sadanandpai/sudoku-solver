@@ -1,5 +1,5 @@
 import { expose } from "comlink";
-import { getRowElements, getColElements, getBoxElements  } from "./helper";
+import { getRowElements, getColElements, getBoxElements } from "./helper";
 
 class Sudoku {
   constructor(board) {
@@ -17,8 +17,8 @@ class Sudoku {
       x += 1;
 
       if (x === this.length) {
-        this.solution.push(this.board.map((v) => [...v]));
-        this.isFinished = true;
+        this.solution.push(this.board.map((v) => [...v]));  // In the current implementation, only one solution is obtained. Array is used to support multiple solutin version if needed in future
+        this.isFinished = true; // comment this line to get multiple solutions (but each solution has to be communicated to the main thread; else main thread will get all the solutions after completion at once)
         return;
       }
     }
@@ -38,7 +38,11 @@ class Sudoku {
       if (this.isFinished) return;
     }
   }
-
+  
+  /**
+   * @description lists possible values allowed for a given cell
+   * @returns numbers[]
+   */
   constructCandidates(board, x, y, m, n) {
     const set = new Set([
       ...getRowElements(board, x),
