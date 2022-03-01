@@ -1,13 +1,23 @@
 {
-  "name": "vite-template-solid",
-  "version": "0.0.0",
-  "description": "",
+  "name": "sudoku-solver",
+  "version": "1.0",
+  "description": "Sudoku solver using backtracking built on SolidJS and TailwindCSS",
+  "info": "Sudoku solver using backtracking built on SolidJS and TailwindCSS",
   "scripts": {
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview"
   },
+  "homepage": "https://sadanandpai.github.io/sudoku-solver/dist/",
+  "contributors": [
+    {
+      "name": "Sadanand",
+      "email": "sadypai@gmail.com",
+      "url": "https://github.com/sadanandpai"
+    }
+  ],
+  "keywords": ["solidhack", "best_app"],
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "^10.4.2",
