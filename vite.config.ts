@@ -1,11 +1,11 @@
-import { defineConfig } from 'vite';
-import solidPlugin from 'vite-plugin-solid';
+import { defineConfig } from "vite";
+import solid from "vite-plugin-solid";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [solidPlugin()],
+  plugins: [tailwindcss(), solid()],
   build: {
-    target: 'esnext',
-    polyfillDynamicImport: false,
+    target: "es2017",
   },
-  base: "/sudoku-solver/dist/"
+  base: "/sudoku-solver/dist/",
 });

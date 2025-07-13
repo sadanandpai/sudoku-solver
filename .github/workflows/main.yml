@@ -5,41 +5,36 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [22.17.0]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        
-    # Runs a single command using the runners shell
-    - name: setup git config
-      run: |
-        git config user.name "Sadanand Pai"
-        git config user.email "sadypai@gmail.com"
-        
-    # Runs a set of commands using the runners shell
-    - name: setup deployment
-      run: |
-        npm ci
-        rm -rf dist
-        npm run build
-        git add dist -f
-        git commit -m "build files from github action"
-        git push
-  
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: setup git config
+        run: |
+          git config user.name "Sadanand Pai"
+          git config user.email "sadypai@gmail.com"
+
+      - name: setup deployment
+        run: |
+          npm i -f
+          rm -rf dist
+          npm run build
+          git add dist -f
+          git commit -m "build files from github action"
+          git push
